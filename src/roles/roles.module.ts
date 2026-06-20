@@ -13,9 +13,6 @@ import { Role } from './entities/role.entity';
       useClass: RolesService,
     },
   ],
-  exports: [
-    TypeOrmModule,
-    'IRolesService',
-  ],
+  exports: [TypeOrmModule, 'IRolesService'],
 })
 export class RolesModule {}

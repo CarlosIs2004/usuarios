@@ -13,7 +13,7 @@ export class Role {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'name', type: 'varchar', length: 50 })
+  @Column({ name: 'name', type: 'varchar', length: 50, unique: true })
   name: string;
 
   @Column({ name: 'description', type: 'text' })

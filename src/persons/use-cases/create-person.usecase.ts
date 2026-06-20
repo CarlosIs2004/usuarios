@@ -23,11 +23,14 @@ export class CreatePersonUseCase {
       const personRepo = queryRunner.manager.getRepository(Person);
       const userRepo = queryRunner.manager.getRepository(User);
 
+      const existingUserByUsername = await userRepo.findOne({
+        where: { username: dto.username, active: true },
+      });
+      if (existingUserByUsername) {
+        throw new ConflictException('Usuario ya existente');
+      }
       let person = await personRepo.findOne({
-        where: [
-          { dni: dto.dni },
-          { email: dto.email },
-        ],
+        where: [{ dni: dto.dni }, { email: dto.email }],
       });
 
       if (person) {
@@ -48,7 +51,7 @@ export class CreatePersonUseCase {
         });
         person = await personRepo.save(person);
 
-        let user = await userRepo.findOne({
+        const user = await userRepo.findOne({
           where: { idPerson: person.id },
         });
 
